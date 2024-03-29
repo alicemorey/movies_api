@@ -30,79 +30,38 @@ app.get ('/', (req, res)=> {
 });
 
 //list of movies
-app.get (/movies/, (res, req)=> {
-    const moviesList = [
-        { title: 'The Ring', year: 2002, director: 'Gore Verbinski' },
-        { title: 'Alien', year: 1979, director: 'Ridley Scott'},
-        { title: 'Suspiria', year: 1977, director: 'Dario Argento'},
-        { title: '28 Days Later', year: 2002, dirctor: 'Danny Boyle'},
-        { title: 'The Wailing', year: 2016, director: 'Na Hing-jin'},
-        { title: 'Old Boy', year: 2003, director: 'Park Chan-wook'},
-        { title: 'The Conjuring', year: 2013, director: 'James Wan'},
-        { title: 'The Ritual', year: 2017, director: 'David Bruckner'},
-        { title: 'Babadook', year:2014, director:'Jennifer Kent'},
-        { title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
-    ];
-    res.json(moviesList);
+app.get ('/movies/list', (res, req)=> {
+    res.send('Displaying list of movies');
 });
 
 //list of movie titles
-app.get (/movies/,{Title},(res,req)=> {
-        const movieTitles =[ 
-        { title: 'The Ring', year: 2002, director: 'Gore Verbinski' },
-        { title: 'Alien', year: 1979, director: 'Ridley Scott'},
-        { title: 'Suspiria', year: 1977, director: 'Dario Argento'},
-        { title: '28 Days Later', year: 2002, dirctor: 'Danny Boyle'},
-        { title: 'The Wailing', year: 2016, director: 'Na Hing-jin'},
-        { title:'Old Boy', year: 2003, director: 'Park Chan-wook'},
-        { title: 'The Conjuring', year: 2013, director: 'James Wan'},
-        { title: 'The Ritual', year: 2017, director: 'David Bruckner'},
-        { title: 'Babadook', year:2014, director:'Jennifer Kent'},
-        { title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
-        ];
-        res.json(movieTitles);
+app.get ('/movies/title',(res,req)=> {
+        res.send('Displaying list of movie titles');
     });
 
 // genres
-app.get (/movies/genres/{genreName}, (res, req)=> {
-    const movieGenre=[
-
-    ];
-    
-    res.json(movieGenre);
+app.get ('/movies/genres/:genreName', (res, req)=> {
+    res.send('Displaying movies by genre:{genreName}');
 });
 
 //Directors
-app.get (/movies/directors/{Name}, (res, req)=> {
-    const movieDirector= [
-
-    ]
-    res.json(movieDirector);
+app.get ('/movies/directors/:direectorName}', (res, req)=> {
+    res.send('Displaying movies directed by:{directorName}');
 });
 
 // User Login
-app.post (/login/,(res, req)=> {
-    const userLogin =[
-//password , name , surname, email 
-    ]
-    res.json(userLogin);
+app.post ('/login',(res, req)=> {
+    res.send('Processing user login');
 });
 
 //Register new user
-app.post (/users/, (res,req)=> {
-    const userNew =[
-//
-    ];
-    res.json (userNew);
-
+app.post ('/users', (res,req)=> {
+    res.send ('Registering new user');
 });
 
 //update user information
-app.put (/users/update, (res, req)=>{
-    const userUpdate =[
-// updates??
-    ];
-    res.json (userUpdate);
+app.put ('/users/update', (res, req)=>{
+    res.send ('updating user information');
 });
 
 // error handling middleware
