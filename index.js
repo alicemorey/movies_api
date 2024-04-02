@@ -4,6 +4,8 @@ bodyParser = require('body-parser'),
 uuid = require('uuid');
 const app = express();
 
+app.use(bodyParser.json());
+
 let users = [
     {
       user: "rob",
@@ -17,7 +19,7 @@ let users = [
     password : "*****"
     }];
 
-app.use(bodyParser.json());
+
 
 // middleware to log requests
 app.use(morgan('dev'));
