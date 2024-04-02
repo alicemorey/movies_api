@@ -17,9 +17,8 @@ let users = [
     username: "susan",
     email : "susan@gmail.com",
     password : "*****"
-    }];
-
-
+    }
+];
 
 // middleware to log requests
 app.use(morgan('dev'));
@@ -49,37 +48,37 @@ app.get ('/', (req, res)=> {
 });
 
 //list of movies
-app.get ('/movies', (res, req)=> {
+app.get ('/movies', (req, res)=> {
     res.send(topMovies);
 });
 
 //list of movie titles
-app.get ('/movies/title',(res,req)=> {
+app.get ('/movies/title',(req,res)=> {
         res.send('Displaying list of movie titles');
     });
 
 // genres
-app.get ('/movies/genres/:genreName', (res, req)=> {
+app.get ('/movies/genres/:genreName', (req, res)=> {
     res.send('Displaying movies by genre:{genreName}');
 });
 
 //Directors
-app.get ('/movies/directors/:direectorName}', (res, req)=> {
+app.get ('/movies/directors/:direectorName}', (req, res)=> {
     res.send('Displaying movies directed by:{directorName}');
 });
 
 // User Login
-app.post ('/login',(res, req)=> {
+app.post ('/login',(req, res)=> {
     res.send(users);
 });
 
 //Register new user
-app.post ('/users', (res,req)=> {
+app.post ('/users', (req,res)=> {
     res.send ('Registering new user');
 });
 
 //update user information
-app.put ('/users/update', (res, req)=>{
+app.put ('/users/update', (req, res)=>{
     res.send ('updating user information');
 });
 
