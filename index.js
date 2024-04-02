@@ -30,8 +30,8 @@ app.get ('/', (req, res)=> {
 });
 
 //list of movies
-app.get ('/movies/list', (res, req)=> {
-    res.send('Displaying list of movies');
+app.get ('/movies', (res, req)=> {
+    res.send(topMovies);
 });
 
 //list of movie titles
