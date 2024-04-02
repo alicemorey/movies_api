@@ -27,8 +27,7 @@ app.use(morgan('dev'));
 app.use(express.static('public'));
 
 // top 10 Movies 
-app.get('/movies', (req, res)=> {
-    const topMovies = [
+let topMovies = [
         { title: 'The Ring', year: 2002, director: 'Gore Verbinski' },
         { title: 'Alien', year: 1979, director: 'Ridley Scott'},
         { title: 'Suspiria', year: 1977, director: 'Dario Argento'},
@@ -40,8 +39,6 @@ app.get('/movies', (req, res)=> {
         { title: 'Babadook', year:2014, director:'Jennifer Kent'},
         { title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
     ];
-    res.json(topMovies);
-});
 
 app.get ('/', (req, res)=> {
     res.send ('Welcome to my Top 10 movies!');
