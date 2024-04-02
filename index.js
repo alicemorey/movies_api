@@ -1,6 +1,23 @@
 const express = require('express');
 const morgan = require('morgan');
+bodyParser = require('body-parser'),
+uuid = require('uuid');
 const app = express();
+
+let users = [
+    {
+      user: "rob",
+      email: "rob@gmail.com",
+      password: "*****"
+    }, 
+
+    {
+    username: "susan",
+    email : "susan@gmail.com",
+    password : "*****"
+    }];
+
+app.use(bodyParser.json());
 
 // middleware to log requests
 app.use(morgan('dev'));
@@ -51,7 +68,7 @@ app.get ('/movies/directors/:direectorName}', (res, req)=> {
 
 // User Login
 app.post ('/login',(res, req)=> {
-    res.send('Processing user login');
+    res.send(users);
 });
 
 //Register new user
