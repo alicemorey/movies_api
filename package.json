@@ -1,19 +1,23 @@
 {
+  "name":"express",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo\"Error:no test specified\"&& exit 1",
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
     "express": "^4.19.1",
     "morgan": "^1.10.0",
     "uuid": "^9.0.1"
   },
-  "name": "movies_api",
-  "description": "is a server-side component of a “movies” web application.  The web application will provide users with access to information about different  thriller and horror movies, directors and genres.",
-  "version": "1.0.0",
-  "main": "index.js",
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "nodemon": "3.1.0"
+  }
 }
+

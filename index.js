@@ -6,6 +6,8 @@ uuid = require('uuid');
 
 app.use(bodyParser.json());
 
+
+
 //users
 let users = [
     {
@@ -26,6 +28,12 @@ let users = [
     password: "*****"
     }
 ];
+
+// static files from the public folder
+app.use(express.static('public'));
+
+// middleware to log requests
+app.use(morgan('dev'));
 
 // movies
 let movies = [
@@ -104,19 +112,15 @@ app.get ("/movies/:title",(req, res)=> {
         }
     });
 
+// READ genres
     app.get ("/movies/genre:genreName",(req, res)=> {
         const { genreName }= req.params;
         const moviesByGenre= movies.filter( movie=> movie.Genre=== genreName);
         res.status(200).json(moviesByGenre);
     });
 
-// READ genres
-app.get ('/movies/genres/:genreName', (req, res)=> {
-    res.send('Displaying movies by genre:{genreName}');
-});
-
 //READ directors
-app.get ('/movies/directors/:direectorName}', (req, res)=> {
+app.get ('/movies/directors/:directorName}', (req, res)=> {
     res.send('Displaying movies directed by:{directorName}');
 });
 
@@ -134,12 +138,6 @@ app.post ('/users', (req,res)=> {
 app.put ('/users/update', (req, res)=>{
     res.send ('updating user information');
 });
-
-// static files from the public folder
-app.use(express.static('public'));
-
-// middleware to log requests
-app.use(morgan('dev'));
 
 // error handling middleware
 app.use((err, req, res, next) => {
