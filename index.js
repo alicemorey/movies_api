@@ -94,9 +94,9 @@ app.get ('/movies', (req, res)=> {
     res.status(200).json(movies);
 });
 
-//list of movie titles
+//READ list of movie titles
 app.get ('/movies/title',(req,res)=> {
-        res.send('Displaying list of movie titles');
+        res.send(movies/titles);
     });
 
 // genres
