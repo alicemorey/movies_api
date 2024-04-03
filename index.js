@@ -1,52 +1,97 @@
-const express = require('express');
+const express = require ('express');
+const app = express();
 const morgan = require('morgan');
 bodyParser = require('body-parser'),
 uuid = require('uuid');
-const app = express();
 
 app.use(bodyParser.json());
 
+//users
 let users = [
     {
-      user: "rob",
+      user: "Rob",
       email: "rob@gmail.com",
       password: "*****"
     }, 
 
     {
-    username: "susan",
+    username: "Susan",
     email : "susan@gmail.com",
     password : "*****"
+    },
+
+    {
+    username: "Ruth",
+    email: "ruth@gmail.com",
+    password: "*****"
     }
 ];
 
-// middleware to log requests
-app.use(morgan('dev'));
+// movies
+let movies = [
+    { 
+        "Title": "The Ring",
+        "Year": "2002",
+        "Description":"Teenage girls Katie and Becca discuss an urban legend about a cursed videotape that causes whoever watches it to die ins even days. That night, Katie, who watched it a week ago, is killed by an unseen force.",
+        "Genre":  "Horror",
+        "Director": {
+            "Name": "Gore Verbinski",
+            "Bio": " The Ring is an American film director, screenwriter, and producer. He is best known for directing Mouse Hunt, The Ring, the first three Pirates of the Caribbean films, and Rango. ",
+        },
+        "ImageURL":"https://en.wikipedia.org/wiki/The_Ring_%282002_film%29#/media/File:Theringpostere.jpg",
+        "Featured":false
+    },
+    { 
+        "Title": "Alien",
+         "Year": "1979", 
+         "Description": "Alien is a science fiction horror film based on a story by O'Bannon and Ronald Shusett, it follows the crew of the commercial space tug Nostromo, who, after coming across a mysterious derelict spaceship on an uncharted planetoid, find themselves up against a deadly and aggressive extraterrestrial loose within their vessel",
+         "Genre": "Horror",
+         "Director": {
+            "Name":"Ridley Scott",
+            "Bio":"was an American film screenwriter, director and visual effects supervisor, usually in the science fiction and horror genres."
+         },
+         "ImageURL":"https://en.wikipedia.org/wiki/Alien_(film)#/media/File:Alien_movie_poster.jpg",
+         "Featured":true
 
-// static files from the public folder
-app.use(express.static('public'));
+    },
+    { 
+        "Title": "Suspiria", 
+        "Year": "1977",
+        "Dessciption":"...",
+        "Genre": "Horror",
+        "Director": {
+            "Name":"Dario Argento",
+            "Bio": "..."
+        },
+        "ImageURL":"...",
+        "Featured": false
+    },
+    {
+        "Title": "28 Days Later",
+        "Year": "2002",
+        "Description":"is a British post-apocalyptic horror film directed by Danny Boyle and written by Alex Garland. It stars Cillian Murphy as a bicycle courier who awakens from a coma to discover the accidental release of a highly contagious, aggression-inducing virus has caused the breakdown of society",
+        "Genre":"Horror",
+        "Director": {
+            "Name":"Danny Boyle",
+            "Bio":"is an English director and producer. He is known for his work on films including Shallow Grave, Trainspotting and its sequel T2 Trainspotting, The Beach, 28 Days Later, Sunshine, Slumdog Millionaire, 127 Hours, Steve Jobs, and Yesterday"
+        },
+        "ImageURL" :"https://en.wikipedia.org/wiki/28_Days_Later#/media/File:28_days_later.jpg",
+        "Featured":true
+    }
+ 
+    //movies to add later
+// { title: 'The Wailing', year: 2016, director: 'Na Hing-jin'},
+//{ title: 'Old Boy', year: 2003, director: 'Park Chan-wook'},
+//{ title: 'The Conjuring', year: 2013, director: 'James Wan'},
+//{ title: 'The Ritual', year: 2017, director: 'David Bruckner'},
+//{ title: 'Babadook', year:2014, director:'Jennifer Kent'},
+//{ title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
+];
 
-// top 10 Movies 
-let topMovies = [
-        { title: 'The Ring', year: 2002, director: 'Gore Verbinski' },
-        { title: 'Alien', year: 1979, director: 'Ridley Scott'},
-        { title: 'Suspiria', year: 1977, director: 'Dario Argento'},
-        { title: '28 Days Later', year: 2002, dirctor: 'Danny Boyle'},
-        { title: 'The Wailing', year: 2016, director: 'Na Hing-jin'},
-        { title: 'Old Boy', year: 2003, director: 'Park Chan-wook'},
-        { title: 'The Conjuring', year: 2013, director: 'James Wan'},
-        { title: 'The Ritual', year: 2017, director: 'David Bruckner'},
-        { title: 'Babadook', year:2014, director:'Jennifer Kent'},
-        { title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
-    ];
-
-app.get ('/', (req, res)=> {
-    res.send ('Welcome to my Top 10 movies!');
-});
-
-//list of movies
+// READ (list of movies)
 app.get ('/movies', (req, res)=> {
-    res.send(topMovies);
+    res.send(movies);
+    res.status(200).json(movies);
 });
 
 //list of movie titles
@@ -59,7 +104,7 @@ app.get ('/movies/genres/:genreName', (req, res)=> {
     res.send('Displaying movies by genre:{genreName}');
 });
 
-//Directors
+//directors
 app.get ('/movies/directors/:direectorName}', (req, res)=> {
     res.send('Displaying movies directed by:{directorName}');
 });
@@ -78,6 +123,12 @@ app.post ('/users', (req,res)=> {
 app.put ('/users/update', (req, res)=>{
     res.send ('updating user information');
 });
+
+// static files from the public folder
+app.use(express.static('public'));
+
+// middleware to log requests
+app.use(morgan('dev'));
 
 // error handling middleware
 app.use((err, req, res, next) => {
