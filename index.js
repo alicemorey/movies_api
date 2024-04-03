@@ -89,32 +89,48 @@ let movies = [
 ];
 
 // READ (list of movies)
-app.get ('/movies', (req, res)=> {
+app.get ("movies", (req, res)=> {
     res.send(movies);
     res.status(200).json(movies);
 });
 
 //READ list of movie titles
-app.get ('/movies/title',(req,res)=> {
-        res.send(movies/titles);
+app.get ("/movies/:title",(req, res)=> {
+        const { title }= req.params;
+        const movie= movies.find( movie=> movie.Title === title);
+        if (movie){
+            res.status(200).json(movie);
+        } else {
+            res.status (400).send ('no such movie')
+        }
     });
 
-// genres
+    app.get ('/movies/genre:genreName',(req, res)=> {
+        const { genreName }= req.params;
+        const genre= movies.find( movie=> movie.Genre.Name === genreName).Genre;
+        if (genre){
+            res.status(200).json(genre);
+        } else {
+            res.status (400).send ('no such genre')
+        }
+    });
+
+// READ genres
 app.get ('/movies/genres/:genreName', (req, res)=> {
     res.send('Displaying movies by genre:{genreName}');
 });
 
-//directors
+//READ directors
 app.get ('/movies/directors/:direectorName}', (req, res)=> {
     res.send('Displaying movies directed by:{directorName}');
 });
 
-// User Login
+// POST User Login
 app.post ('/login',(req, res)=> {
     res.send(users);
 });
 
-//Register new user
+//POST Register new user
 app.post ('/users', (req,res)=> {
     res.send ('Registering new user');
 });
