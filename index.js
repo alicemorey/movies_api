@@ -96,6 +96,25 @@ let movies = [
 //{ title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
 ];
 
+
+//CREATE new user
+app.post ('/users', (req,res)=> {
+    const newUser= req.body;
+
+    if (newUser.name) {
+        newUser.id = uuid.v4();
+        users.push(newUser);
+        res.status (201).json(newUser)
+    } else {
+        res.status(400).send ('users need name')
+    }
+});
+
+// CREATE User Login
+app.post ('/login',(req, res)=> {
+    res.send(users);
+});
+
 // READ (list of movies)
 app.get ("movies", (req, res)=> {
     res.status(200).json(movies);
@@ -137,15 +156,8 @@ app.get ('/movies/directors/:directorName}', (req, res)=> {
     }
 })
 
-// POST User Login
-app.post ('/login',(req, res)=> {
-    res.send(users);
-});
 
-//POST Register new user
-app.post ('/users', (req,res)=> {
-    res.send ('Registering new user');
-});
+
 
 //update user information
 app.put ('/users/update', (req, res)=>{
