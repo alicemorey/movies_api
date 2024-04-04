@@ -117,12 +117,25 @@ app.get ("/movies/:title",(req, res)=> {
         const { genreName }= req.params;
         const moviesByGenre= movies.filter( movie=> movie.Genre=== genreName);
         res.status(200).json(moviesByGenre);
+
+        if (genre) {
+            res.status(200).json(genre);
+        } else {
+            res.status(400).send ('no such genre')
+        }
     });
 
 //READ directors
 app.get ('/movies/directors/:directorName}', (req, res)=> {
-    res.send('Displaying movies directed by:{directorName}');
-});
+    const { directorName } = req.params;
+    const director =movies.find (movie => movie.Director.Name === directorName ).Director
+
+    if (director){
+        res.status(200).json(director);
+    } else {
+        res.status(400).send ('no such director')
+    }
+})
 
 // POST User Login
 app.post ('/login',(req, res)=> {
