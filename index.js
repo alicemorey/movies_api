@@ -110,10 +110,32 @@ app.post ('/users', (req,res)=> {
     }
 });
 
+//UPDATE user information
+app.put ('/users/:id', (req,res)=> {
+    const { id } = req.params;
+    const updatedUser= req.body;
+
+    let user =users.find (user => user.id == id);
+    if (user) {
+        user.name= updatedUser.name;
+        res.status(200).json(user);
+    } else {
+        res.status(400).send('no such user')
+    }
+});
+
 // CREATE User Login
 app.post ('/login',(req, res)=> {
     res.send(users);
 });
+
+//POST New movie
+app.post ('/movies', (req, res)=> {
+    const newMovie = req.body;
+    movies.push(newMovie);
+    res.status(201).json(newMovie);
+});
+
 
 // READ (list of movies)
 app.get ("movies", (req, res)=> {
@@ -155,14 +177,6 @@ app.get ('/movies/directors/:directorName}', (req, res)=> {
         res.status(400).send ('no such director')
     }
 })
-
-
-
-
-//update user information
-app.put ('/users/update', (req, res)=>{
-    res.send ('updating user information');
-});
 
 // error handling middleware
 app.use((err, req, res, next) => {
