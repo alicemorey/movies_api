@@ -139,6 +139,7 @@ app.post ('/movies', (req, res)=> {
 
 // READ (list of movies)
 app.get ('/movies', (req, res)=> {
+    const movies = re.body;
     res.status(200).json(movies);
 });
 
