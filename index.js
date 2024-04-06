@@ -138,12 +138,12 @@ app.post ('/movies', (req, res)=> {
 
 
 // READ (list of movies)
-app.get ("movies", (req, res)=> {
+app.get ('/movies', (req, res)=> {
     res.status(200).json(movies);
 });
 
 //READ list of movie titles
-app.get ("/movies/:title",(req, res)=> {
+app.get ('/movies/:title',(req, res)=> {
         const { title }= req.params;
         const movie= movies.find( movie=> movie.Title === title);
         if (movie){
@@ -154,7 +154,7 @@ app.get ("/movies/:title",(req, res)=> {
     });
 
 // READ genres
-    app.get ("/movies/genre:genreName",(req, res)=> {
+    app.get ('/movies/genre:genreName',(req, res)=> {
         const { genreName }= req.params;
         const moviesByGenre= movies.filter( movie=> movie.Genre=== genreName);
         res.status(200).json(moviesByGenre);
