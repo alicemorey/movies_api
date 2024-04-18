@@ -1,6 +1,14 @@
 const express = require ('express');
+app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 const app = express();
 const morgan = require('morgan');
+const mongoose=require('mongoose');
+const Models=require('./models.js');
+const Movies=Models.Movie;
+const Users=Models.User;
+
+mongoose.connect ('mongobd://localhost:27017/myflix', {useNewUrlParser:true, useUnifiedTopology:true});
 bodyParser = require('body-parser'),
 uuid = require('uuid');
 
@@ -44,7 +52,8 @@ let movies = [
         "Genre":  "Horror",
         "Director": {
             "Name": "Gore Verbinski",
-            "Bio": " The Ring is an American film director, screenwriter, and producer. He is best known for directing Mouse Hunt, The Ring, the first three Pirates of the Caribbean films, and Rango. ",
+            "Bio": " is an American film director, screenwriter, and producer. He is best known for directing Mouse Hunt, The Ring, the first three Pirates of the Caribbean films, and Rango. ",
+            "Dateofbirth":" 16 March 1964"
         },
         "ImageURL":"https://en.wikipedia.org/wiki/The_Ring_%282002_film%29#/media/File:Theringpostere.jpg",
         "Featured":false
