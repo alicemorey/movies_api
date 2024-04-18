@@ -1,22 +1,46 @@
 const express = require ('express');
-app.use(express.json());
-app.use(express.urlencoded({extended:true}));
-const app = express();
+    bodyParser = require('body-parser'),
+    uuid = require('uuid');
 const morgan = require('morgan');
+const app = express();
 const mongoose=require('mongoose');
 const Models=require('./models.js');
-const Movies=Models.Movie;
-const Users=Models.User;
 
-mongoose.connect ('mongobd://localhost:27017/myflix', {useNewUrlParser:true, useUnifiedTopology:true});
-bodyParser = require('body-parser'),
-uuid = require('uuid');
+//app.use(express.json());
+//app.use(express.urlencoded({extended:true}));
+
+const movies1=Models.movies1;
+const users1=Models.users1;
+const Directors=Models.Director;
+const Genres=Models.Genre;
+
+mongoose.connect ('mongodb://localhost:27017/myflix', 
+{useNewUrlParser:true, useUnifiedTopology:true});
 
 app.use(bodyParser.json());
 
+//log requests to server
+app.use(morgan("common"));
 
+//default text response
+app.get("/", (rey, res)=>{
+    res.send ("Welcome to my movie app-MyFlix!");
+});
 
-//users
+//GET movies-return JSON /movies
+app.get('/movies',(req, res)=>{
+    movies1.find()
+    .then((movies1)=>{
+        res.status(201).json(movies1);
+    })
+    .catch ((err)=>{
+        console.error(err);
+        res.status(500).send("Error:"+ err);
+    });
+});
+
+//GET users list
+app.get ("/users")
 let users = [
     {
       user: "Rob",
@@ -42,68 +66,6 @@ app.use(express.static('public'));
 
 // middleware to log requests
 app.use(morgan('dev'));
-
-// movies
-let movies = [
-    { 
-        "Title": "The Ring",
-        "Year": "2002",
-        "Description":"Teenage girls Katie and Becca discuss an urban legend about a cursed videotape that causes whoever watches it to die ins even days. That night, Katie, who watched it a week ago, is killed by an unseen force.",
-        "Genre":  "Horror",
-        "Director": {
-            "Name": "Gore Verbinski",
-            "Bio": " is an American film director, screenwriter, and producer. He is best known for directing Mouse Hunt, The Ring, the first three Pirates of the Caribbean films, and Rango. ",
-            "Dateofbirth":" 16 March 1964"
-        },
-        "ImageURL":"https://en.wikipedia.org/wiki/The_Ring_%282002_film%29#/media/File:Theringpostere.jpg",
-        "Featured":false
-    },
-    { 
-        "Title": "Alien",
-         "Year": "1979", 
-         "Description": "Alien is a science fiction horror film based on a story by O'Bannon and Ronald Shusett, it follows the crew of the commercial space tug Nostromo, who, after coming across a mysterious derelict spaceship on an uncharted planetoid, find themselves up against a deadly and aggressive extraterrestrial loose within their vessel",
-         "Genre": "Horror",
-         "Director": {
-            "Name":"Ridley Scott",
-            "Bio":"was an American film screenwriter, director and visual effects supervisor, usually in the science fiction and horror genres."
-         },
-         "ImageURL":"https://en.wikipedia.org/wiki/Alien_(film)#/media/File:Alien_movie_poster.jpg",
-         "Featured":true
-
-    },
-    { 
-        "Title": "Suspiria", 
-        "Year": "1977",
-        "Dessciption":"...",
-        "Genre": "Horror",
-        "Director": {
-            "Name":"Dario Argento",
-            "Bio": "..."
-        },
-        "ImageURL":"...",
-        "Featured": false
-    },
-    {
-        "Title": "28 Days Later",
-        "Year": "2002",
-        "Description":"is a British post-apocalyptic horror film directed by Danny Boyle and written by Alex Garland. It stars Cillian Murphy as a bicycle courier who awakens from a coma to discover the accidental release of a highly contagious, aggression-inducing virus has caused the breakdown of society",
-        "Genre":"Horror",
-        "Director": {
-            "Name":"Danny Boyle",
-            "Bio":"is an English director and producer. He is known for his work on films including Shallow Grave, Trainspotting and its sequel T2 Trainspotting, The Beach, 28 Days Later, Sunshine, Slumdog Millionaire, 127 Hours, Steve Jobs, and Yesterday"
-        },
-        "ImageURL" :"https://en.wikipedia.org/wiki/28_Days_Later#/media/File:28_days_later.jpg",
-        "Featured":true
-    }
- 
-    //movies to add later
-// { title: 'The Wailing', year: 2016, director: 'Na Hing-jin'},
-//{ title: 'Old Boy', year: 2003, director: 'Park Chan-wook'},
-//{ title: 'The Conjuring', year: 2013, director: 'James Wan'},
-//{ title: 'The Ritual', year: 2017, director: 'David Bruckner'},
-//{ title: 'Babadook', year:2014, director:'Jennifer Kent'},
-//{ title: 'The Shining', year: 1980, director: 'Stanley Kubrick'}
-];
 
 
 //CREATE new user

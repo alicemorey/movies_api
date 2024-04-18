@@ -1,4 +1,4 @@
-const mongoose=require('mongoose');
+const mongoose= require('mongoose');
 
 let movieSchema=mongoose.Schema({
     Title:{type:String, Required:true},
@@ -25,9 +25,8 @@ let movieSchema=mongoose.Schema({
         FavoriteMovies:[{type:mongoose.Schema.Types.ObjectId, ref:'Movie'}]
     });
 
-    let Movie=mongoose.model('movie', movieSchema);
-    let User=mongoose.model ('User', user.Schema);
+    let movies1=mongoose.model('movies1', movieSchema);
+    let users1=mongoose.model ('users1', userSchema);
 
-    module.exports.Movie=Movie;
-    module.exports.User=User;
-    
+    module.exports.movies1=movies1;
+    module.exports.users1=users1;
