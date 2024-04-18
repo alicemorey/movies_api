@@ -1,0 +1,9 @@
+{"_id":{"$oid":"6618428072be66e4a40ab657"},"Name":"Rob","Email":"rob@gmail.com","Password":"1234"}
+{"_id":{"$oid":"661842b872be66e4a40ab658"},"Name":"Alice","Email":"alice@gmail.com","Password":"1235"}
+{"_id":{"$oid":"661842f072be66e4a40ab659"},"Name":"Ruth","Email":"ruth@gmail.com","Password":"1236"}
+{"_id":{"$oid":"6618432472be66e4a40ab65a"},"Name":"Emily","Email":"emily@gmail.com","Password":"1237"}
+{"_id":{"$oid":"6618436472be66e4a40ab65b"},"Name":"Finn","Email":"finn@gmail.com","Password":"1238"}
+{"_id":{"$oid":"66192636c7e3fb02805ca446"},"username":"Alice","favourite_movies":["movie1","movie7","movie8","movie3"]}
+{"_id":{"$oid":"6619266cc7e3fb02805ca447"},"username":"Ruth","favourite_movies":["movie6","movie9","movie3"]}
+{"_id":{"$oid":"661926b4c7e3fb02805ca448"},"username":"Emily","favourite_movie":["movie10","movie3","movie5"]}
+{"_id":{"$oid":"661926eec7e3fb02805ca449"},"username":"Finn","favourite_movies":["movie8","movie7","movie1"]}
