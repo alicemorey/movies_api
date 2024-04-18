@@ -5,23 +5,21 @@ let movieSchema=mongoose.Schema({
     Description:{type:String, required:true},
     Genre:{
         Name:String, 
-        Description:String,
     },
     Director:{
         Name:String,
         Bio:String,
         Birth:String,
     },
-    Actos:[String],
+    Actor:[String],
     ImagePath:String,
     Featured:Boolean
     });
 
     let userSchema =mongoose.Schema({
         Username:{type:String, required:true},
-        Password:{type:String, required:true},
         Email:{type:String, required:true},
-        Birthday:Date,
+        Password:{type:String, required:true},
         FavoriteMovies:[{type:mongoose.Schema.Types.ObjectId, ref:'Movie'}]
     });
 
