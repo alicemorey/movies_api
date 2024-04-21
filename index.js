@@ -99,7 +99,6 @@ app.put('/users/:Username', async (req, res) => {
   
   });
 
-  // DELETE a user by username
 // DELETE a user by username
 app.delete('/users/:Username', async (req, res) => {
     try {
@@ -131,9 +130,13 @@ app.get('/movies',(req, res)=>{
 //GET Movie info from title-return JSON
 app.get ('/movies/:Title', (req, res)=>{
     movies1.findOne({Title:req.params.Title})
-    .then((movies1)=>{
-        res.json(movies1);
-    })
+    .then((movie)=>{
+        if(!movie) {
+            res.status(404).send ("Movie not found");
+        }else {
+        res.json(movie);
+}
+})
     .catch ((err)=>{
         console.error(err);
         res.status(500).send("Error:"+ err);
@@ -141,11 +144,15 @@ app.get ('/movies/:Title', (req, res)=>{
 });
 
 //GET Genre
-app.get ('/genre/:Name', (req, res)=>{
+app.get ('/genres/:Name', (req, res)=>{
     Genres.findOne({Name:req.params.Name})
     .then((genre)=>{
+        if(!genre){
+            res.status(404).send("Genre not found");
+        }else{
         res.json(genre.Description);
-    })
+}
+})
     .catch((err)=>{
         console.error(err);
         res.status(500).send("Error:"+ err);
@@ -156,8 +163,12 @@ app.get ('/genre/:Name', (req, res)=>{
 app.get('/director/:Name', (req, res)=>{
     Directors.findOne({ Name:req.params.Name})
     .then ((director)=>{
+        if(!director){
+            res.status(404).send("Genre not found");
+        }else{
         res.json(director);
-    })
+}
+})
     .catch((err)=>{
         console.error(err);
         res.status(500).send("Error:"+err);
