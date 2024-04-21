@@ -27,18 +27,6 @@ app.get("/", (rey, res)=>{
     res.send ("Welcome to my movie app-MyFlix!");
 });
 
-//GET movies-return JSON /movies
-app.get('/movies',(req, res)=>{
-    movies1.find()
-    .then((movies1)=>{
-        res.status(201).json(movies1);
-    })
-    .catch ((err)=>{
-        console.error(err);
-        res.status(500).send("Error:"+ err);
-    });
-});
-
 // GET all users
 app.get('/users', (req, res) => {
     users1.find()
@@ -100,7 +88,7 @@ app.put('/users/:Username', async (req, res) => {
         Birthday: req.body.Birthday
       }
     },
-    { new: true }) // This line makes sure that the updated document is returned
+    { new: true }) 
     .then((updatedUser) => {
       res.json(updatedUser);
     })
@@ -112,20 +100,33 @@ app.put('/users/:Username', async (req, res) => {
   });
 
   // DELETE a user by username
+// DELETE a user by username
 app.delete('/users/:Username', async (req, res) => {
-    await users1.findOneAndRemove({ Username: req.params.Username })
-      .then((user) => {
-        if (!user) {
-          res.status(400).send(req.params.Username + ' was not found');
-        } else {
-          res.status(200).send(req.params.Username + ' was deleted.');
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-      });
+    try {
+      const user = await users1.findOneAndDelete({ Username: req.params.Username });
+      if (!user) {
+        res.status(400).send(req.params.Username + ' was not found');
+      } else {
+        res.status(200).send(req.params.Username + ' was deleted.');
+      }
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err);
+    }
   });
+  
+
+  //GET movies-return JSON /movies
+app.get('/movies',(req, res)=>{
+    movies1.find()
+    .then((movies1)=>{
+        res.status(201).json(movies1);
+    })
+    .catch ((err)=>{
+        console.error(err);
+        res.status(500).send("Error:"+ err);
+    });
+});
 
 //GET Movie info from title-return JSON
 app.get ('/movies/:Title', (req, res)=>{
