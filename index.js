@@ -39,7 +39,7 @@ app.get('/movies',(req, res)=>{
     });
 });
 
-// Get all users
+// GET all users
 app.get('/users', (req, res) => {
     users1.find()
       .then((users1) => {
@@ -87,6 +87,43 @@ app.post('/users', async (req, res) => {
       .catch((error) => {
         console.error(error);
         res.status(500).send('Error: ' + error);
+      });
+  });
+
+//UPDATE user info, by username
+app.put('/users/:Username', async (req, res) => {
+    await users1.findOneAndUpdate({ Username: req.params.Username }, { $set:
+      {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+      }
+    },
+    { new: true }) // This line makes sure that the updated document is returned
+    .then((updatedUser) => {
+      res.json(updatedUser);
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("Error:" + err);
+    })
+  
+  });
+
+  // DELETE a user by username
+app.delete('/users/:Username', async (req, res) => {
+    await users1.findOneAndRemove({ Username: req.params.Username })
+      .then((user) => {
+        if (!user) {
+          res.status(400).send(req.params.Username + ' was not found');
+        } else {
+          res.status(200).send(req.params.Username + ' was deleted.');
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send('Error: ' + err);
       });
   });
 
