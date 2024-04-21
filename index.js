@@ -146,11 +146,14 @@ app.get ('/movies/:Title', (req, res)=>{
 // POST Add a movie to a users favorites
 app.post('/users/:Username/favorites', async (req, res) => {
     const Username = req.params.Username;
-    const {movieId}= req.body
+    const {_id}= req.body
     try {
         const updatedUser = await users1.findOneAndUpdate(
-            { Username }, 
-            { $addToSet: { favoriteMovies: movieId } }, 
+            {  Username: req.body.Username,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday }, 
+            { $addToSet: { FavoriteMovies: _id } }, 
                 { new: true }
             );
         if (!updatedUser) {
@@ -165,7 +168,7 @@ app.post('/users/:Username/favorites', async (req, res) => {
 
 //GET Genre
 app.get ('/genres/:Name', (req, res)=>{
-    Genre.findOne({Name:req.params.Name})
+    Genre.findOne({Genre:req.params.Genre})
     .then((genre)=>{
         if(!genre){
             res.status(404).send("Genre not found");
