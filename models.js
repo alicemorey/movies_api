@@ -5,6 +5,7 @@ let movieSchema=mongoose.Schema({
     Description:{type:String, required:true},
     Genre:{
         Name:String, 
+        Description:String
     },
     Director:{
         Name:String,
@@ -16,7 +17,7 @@ let movieSchema=mongoose.Schema({
     Featured:Boolean
     });
 
-    let userSchema =mongoose.Schema({
+    let users1Schema =mongoose.Schema({
         Username:{type:String, required:true},
         Email:{type:String, required:true},
         Password:{type:String, required:true},
@@ -24,7 +25,7 @@ let movieSchema=mongoose.Schema({
     });
 
     let movies1=mongoose.model('movies1', movieSchema);
-    let users1=mongoose.model ('users1', userSchema);
+    let users1=mongoose.model ('users1', users1Schema);
 
     module.exports.movies1=movies1;
     module.exports.users1=users1;

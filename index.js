@@ -11,8 +11,8 @@ const Models=require('./models.js');
 
 const movies1=Models.movies1;
 const users1=Models.users1;
-const Directors=Models.Director;
-const Genres=Models.Genre;
+const Director=Models.Director;
+const Genre=Models.Genre;
 
 mongoose.connect ('mongodb://localhost:27017/myflix', 
 {useNewUrlParser:true, useUnifiedTopology:true});
@@ -143,9 +143,29 @@ app.get ('/movies/:Title', (req, res)=>{
     });
 });
 
+// POST Add a movie to a users favorites
+app.post('/users/:Username/favorites', async (req, res) => {
+    const Username = req.params.Username;
+    const {movieId}= req.body
+    try {
+        const updatedUser = await users1.findOneAndUpdate(
+            { Username }, 
+            { $addToSet: { favoriteMovies: movieId } }, 
+                { new: true }
+            );
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json(updatedUser);
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Error: " + err);
+    }
+});
+
 //GET Genre
 app.get ('/genres/:Name', (req, res)=>{
-    Genres.findOne({Name:req.params.Name})
+    Genre.findOne({Name:req.params.Name})
     .then((genre)=>{
         if(!genre){
             res.status(404).send("Genre not found");
@@ -161,7 +181,7 @@ app.get ('/genres/:Name', (req, res)=>{
 
 //GET info on director
 app.get('/director/:Name', (req, res)=>{
-    Directors.findOne({ Name:req.params.Name})
+    Director.findOne({ Name:req.params.Name})
     .then ((director)=>{
         if(!director){
             res.status(404).send("Genre not found");
