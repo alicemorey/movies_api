@@ -10,7 +10,7 @@ const Models=require('./models.js');
 //app.use(express.urlencoded({extended:true}));
 
 const movies1=Models.movies1;
-const users1=Models.users;
+const users1=Models.users1;
 const Directors=Models.Director;
 const Genres=Models.Genre;
 
@@ -41,9 +41,9 @@ app.get('/movies',(req, res)=>{
 
 // Get all users
 app.get('/users', (req, res) => {
-    users.find()
-      .then((users) => {
-        res.status(201).json(users);
+    users1.find()
+      .then((users1) => {
+        res.status(200).json(users1);
       })
       .catch((err) => {
         console.error(err);
@@ -62,6 +62,33 @@ app.get ('/users/:Username', (req, res)=> {
         res.status(500).send("Error:"+ err);
     })
 });
+
+//POST -add a user
+app.post('/users', async (req, res) => {
+    await users1.findOne({ Username: req.body.Username })
+      .then((user) => {
+        if (user) {
+          return res.status(400).send(req.body.Username + 'already exists');
+        } else {
+          users1
+            .create({
+              Username: req.body.Username,
+              Password: req.body.Password,
+              Email: req.body.Email,
+              Birthday: req.body.Birthday
+            })
+            .then((user) =>{res.status(201).json(user) })
+          .catch((error) => {
+            console.error(error);
+            res.status(500).send('Error: ' + error);
+          })
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        res.status(500).send('Error: ' + error);
+      });
+  });
 
 //GET Movie info from title-return JSON
 app.get ('/movies/:Title', (req, res)=>{
