@@ -145,7 +145,7 @@ app.get ('/movies/:Title', (req, res)=>{
 
 // POST Add a movie to a users favorites
 app.post('/users/:Username/favorites', async (req, res) => {
-    const Username = req.params.Username;
+    const Username = req.body.Username;
     const {_id}= req.body
     try {
         const updatedUser = await users1.findOneAndUpdate(
