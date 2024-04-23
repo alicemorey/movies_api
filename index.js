@@ -1,4 +1,5 @@
 const express = require ('express');
+const router = express.Router();
     bodyParser = require('body-parser'),
     uuid = require('uuid');
 const morgan = require('morgan');
@@ -11,8 +12,9 @@ const Models=require('./models.js');
 
 const movies1=Models.movies1;
 const users1=Models.users1;
-const Director=Models.Director;
-const Genre=Models.Genre;
+const genre=Models.Genre;
+const director=Models.Director;
+const FavoriteMovie=Models.FavoriteMovie;
 
 mongoose.connect ('mongodb://localhost:27017/myflix', 
 {useNewUrlParser:true, useUnifiedTopology:true});
@@ -130,7 +132,9 @@ app.get('/movies',(req, res)=>{
 //GET Movie info from title-return JSON
 app.get ('/movies/:Title', (req, res)=>{
     movies1.findOne({Title:req.params.Title})
-    .then((movie)=>{
+        .populate('Genre')
+        .populate('Director')
+        .then((movie)=>{
         if(!movie) {
             res.status(404).send ("Movie not found");
         }else {
@@ -145,17 +149,13 @@ app.get ('/movies/:Title', (req, res)=>{
 
 // POST Add a movie to a users favorites
 app.post('/users/:Username/favorites', async (req, res) => {
-    const Username = req.body.Username;
-    const {_id}= req.body
     try {
         const updatedUser = await users1.findOneAndUpdate(
-            {  Username: req.body.Username,
-                Password: req.body.Password,
-                Email: req.body.Email,
-                Birthday: req.body.Birthday }, 
-            { $addToSet: { FavoriteMovies: _id } }, 
+            {   Username: req.params.Username}, 
+            { $addToSet: { FavoriteMovie: req.body._id } }, 
                 { new: true }
-            );
+            ).populate ('FavoriteMovie');
+
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -167,38 +167,34 @@ app.post('/users/:Username/favorites', async (req, res) => {
 });
 
 //GET Genre
-app.get ('/genres/:Name', (req, res)=>{
-    Genre.findOne({Genre:req.params.Genre})
-    .then((genre)=>{
-        if(!genre){
+const {Genre}=require ('./models.js');
+app.get ('/genre/:Name', async (req, res)=>{
+    try{
+    const genreData= await Genre.findOne({name:req.params.Name});
+        if(!genreData){
             res.status(404).send("Genre not found");
-        }else{
-        res.json(genre.Description);
-}
-})
-    .catch((err)=>{
+        }
+        res.json({ name:genreData, decription:genreData.description});
+
+    }catch (err){
         console.error(err);
         res.status(500).send("Error:"+ err);
-    });
+    }
 });
 
 //GET info on director
-app.get('/director/:Name', (req, res)=>{
-    Director.findOne({ Name:req.params.Name})
-    .then ((director)=>{
-        if(!director){
-            res.status(404).send("Genre not found");
-        }else{
-        res.json(director);
-}
-})
-    .catch((err)=>{
+app.get('/director/:Name', async (req, res)=>{
+    try{
+        const directorData=await director.findOne({ Name:req.params.Name})
+        if(!directorData){
+            res.status(404).send("Director not found");
+        }
+        res.json({name:directorData.Name, bio:directorData.Bio, birth:directorData.Birth});
+} catch(err){
         console.error(err);
         res.status(500).send("Error:"+err);
-    });
+    }
 });
-
-
 
 // static files from the public folder
 app.use(express.static('public'));
