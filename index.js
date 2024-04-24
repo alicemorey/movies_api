@@ -1,5 +1,4 @@
 const express = require ('express');
-const router = express.Router();
     bodyParser = require('body-parser'),
     uuid = require('uuid');
 const morgan = require('morgan');
@@ -12,9 +11,8 @@ const Models=require('./models.js');
 
 const movies1=Models.movies1;
 const users1=Models.users1;
-const genre=Models.Genre;
-const director=Models.Director;
-const FavoriteMovie=Models.FavoriteMovie;
+const Genre=Models.Genre;
+const Director=Models.Director;
 
 mongoose.connect ('mongodb://localhost:27017/myflix', 
 {useNewUrlParser:true, useUnifiedTopology:true});
@@ -117,16 +115,15 @@ app.delete('/users/:Username', async (req, res) => {
   });
   
 
-  //GET movies-return JSON /movies
-app.get('/movies',(req, res)=>{
-    movies1.find()
-    .then((movies1)=>{
-        res.status(201).json(movies1);
-    })
-    .catch ((err)=>{
+  //GET movies-return JSON /movies/ with populated Genre and Director
+  app.get('/movies', async (req, res) => {
+    try {
+        const movies = await movies1.find().populate('Genre').populate('Director');
+        res.json(movies);
+    } catch (err) {
         console.error(err);
-        res.status(500).send("Error:"+ err);
-    });
+        res.status(500).send("Error: " + err);
+    }
 });
 
 //GET Movie info from title-return JSON
@@ -152,7 +149,7 @@ app.post('/users/:Username/favorites', async (req, res) => {
     try {
         const updatedUser = await users1.findOneAndUpdate(
             {   Username: req.params.Username}, 
-            { $addToSet: { FavoriteMovie: req.body._id } }, 
+            { $addToSet: { FavoriteMovie: req.body.ObjectId } }, 
                 { new: true }
             ).populate ('FavoriteMovie');
 
@@ -167,14 +164,13 @@ app.post('/users/:Username/favorites', async (req, res) => {
 });
 
 //GET Genre
-const {Genre}=require ('./models.js');
 app.get ('/genre/:Name', async (req, res)=>{
     try{
-    const genreData= await Genre.findOne({name:req.params.Name});
-        if(!genreData){
+    const Genre= await Genre.findOne({name:req.params.Name});
+        if(!Genre){
             res.status(404).send("Genre not found");
         }
-        res.json({ name:genreData, decription:genreData.description});
+        //res.json({ name:genreData});
 
     }catch (err){
         console.error(err);
@@ -185,11 +181,11 @@ app.get ('/genre/:Name', async (req, res)=>{
 //GET info on director
 app.get('/director/:Name', async (req, res)=>{
     try{
-        const directorData=await director.findOne({ Name:req.params.Name})
-        if(!directorData){
+        const Director=await Director.findOne({ Name:req.params.Name})
+        if(!Director){
             res.status(404).send("Director not found");
         }
-        res.json({name:directorData.Name, bio:directorData.Bio, birth:directorData.Birth});
+        res.json({name:Director, bio:Director.Bio, birth:Director.Birth});
 } catch(err){
         console.error(err);
         res.status(500).send("Error:"+err);
@@ -201,7 +197,6 @@ app.use(express.static('public'));
 
 // middleware to log requests
 app.use(morgan('dev'));
-
 
 
 // error handling middleware
