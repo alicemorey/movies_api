@@ -29,7 +29,7 @@ const favoriteMovieSchema = new mongoose.Schema({
 const movies1Schema = new mongoose.Schema({
     Title: { type: String, required: true },
     Description: { type: String, required: true },
-    Genre: { type: mongoose.Schema.Types.ObjectId, ref: 'Genre', required: true },a,
+    Genre: { type: mongoose.Schema.Types.ObjectId, ref: 'Genre', required: true },
     Director: DirectorSchema,
     ImagePath: String,
     Featured: Boolean
