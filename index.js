@@ -2,13 +2,23 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const Models = require('./models.js');
+const passport = require('passport');
+require ('./passport.js');
 
 const app = express();
+
+const Models = require('./models.js');
 const movies1 = Models.Movie;
 const users1 = Models.User;
 const Genre = Models.Genre;
 const Director = Models.Director;
+
+
+// Middleware
+app.use(express.json());
+app.use(bodyParser.json());
+app.use(morgan("common"));
+app.use(bodyParser.urlencoded({extended:true}));
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/myflix', {
@@ -16,11 +26,12 @@ mongoose.connect('mongodb://localhost:27017/myflix', {
     useUnifiedTopology: true
 });
 
-// Middleware
-app.use(bodyParser.json());
-app.use(morgan("common"));
-
 // Routes
+const auth = require('./auth.js');
+const user =require('./users.js');
+
+//app.use('/auth', auth); //wont work ??
+app.use ('/user', passport.authenticate('jwt', {session:false}),user);
 
 // Welcome message
 app.get("/", (req, res) => {
@@ -97,15 +108,16 @@ app.delete('/users/:Username', async (req, res) => {
 });
 
 // GET movies - return JSON with populated Genre and Director
-app.get('/movies', async (req, res) => {
-    try {
-        const movies = await movies1.find().populate('Genre').populate('Director');
-        res.json(movies);
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Error: ' + err);
-    }
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+  try {
+      const movies = await movies1.find().populate('Genre').populate('Director');
+      res.status(200).json(movies);
+  } catch (err) {
+      console.error(err);
+      res.status(500).send('Error: ' + err.message);
+  }
 });
+
 
 // GET Movie info from title - return JSON
 app.get('/movies/:Title', async (req, res) => {
