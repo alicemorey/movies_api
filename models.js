@@ -38,7 +38,7 @@ users1Schema.methods.validatePassword=function(password){
 };
 
 // create models on defined schemas
-const User = mongoose.model('User', users1Schema);
-const Movie = mongoose.model('Movie', movies1Schema);
+const users1 = mongoose.model('User', users1Schema);
+const movies1 = mongoose.model('Movie', movies1Schema);
 
-module.exports = { User, Movie };
+module.exports = { users1, movies1 };
