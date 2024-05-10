@@ -59,11 +59,12 @@ accessLogStream = fs.createWriteStream(path.join(__dirname, "./log.txt.log"), {
   flags: "a",
 });
 
-// keeping below code for local connetion use
-//mongoose.connect("mongodb://localhost:27017/myflix", {
+/** 
+ * keeping below code for local connetion use
+  mongoose.connect("mongodb://localhost:27017/myflix", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-//});
+}); */
 
 /**
  * connection to online database hosted by mongoDB
