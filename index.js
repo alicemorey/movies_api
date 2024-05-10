@@ -29,19 +29,6 @@ const { check, validationResult } = require("express-validator");
 const cors = require("cors");
 app.use(cors());
 
-// keeping below code for if/when reverting back to limited origins access
-/* let allowedOrigins = ['http://localhost:8080', 'https://movieapi-9rx2.onrender.com/', 'http://localhost:1234', 'http://localhost:56971', 'https://shivg90-myflix-movie-app.netlify.app', 'http://localhost:4200'];
-app.use(cors({
-  origin: (origin, callback) => {
-    if(!origin) return callback(null, true);
-    if(allowedOrigins.indexOf(origin) === -1){
-      let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-      return callback(new Error(message ), false);
-    }
-    return callback(null, true);
-  }
-})); */
-
 let auth = require("./auth")(app);
 const passport = require("passport");
 require("./passport");
