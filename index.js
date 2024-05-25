@@ -93,6 +93,7 @@ app.get("/", (req, res) => {
  */
 app.get(
   "/movies",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find()
       .then((movies) => {
@@ -115,6 +116,7 @@ app.get(
  */
 app.get(
   "/movies/:Title",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ Title: req.params.Title })
       .then((movie) => {
@@ -137,6 +139,7 @@ app.get(
  */
 app.get(
   "/movies/genre/:Name",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ "Genre.Name": req.params.Name })
       .then((movies) => {
@@ -159,6 +162,7 @@ app.get(
  */
 app.get(
   "/movies/director/:directorName",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ "Director.Name": req.params.directorName })
       .then((movies) => {
@@ -181,6 +185,7 @@ app.get(
  */
 app.post(
   "/movies",
+  passport.authenticate("jwt", { session: false }),
   async (req, res) => {
     try {
       const movie = await Movies.findOne({ Title: req.body.Title });
