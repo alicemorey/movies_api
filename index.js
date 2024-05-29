@@ -213,6 +213,35 @@ app.post(
   }
 );
 
+/** update movie
+ * @method GET
+ */
+
+app.put("/movies/:id", async (req, res) => {
+  const movieId = req.params.id;
+  const updatedData = req.body;
+
+  try {
+    // Find the movie by ID
+    const movie = await movie.findById(movieId);
+
+    if (!movie) {
+      return res.status(404).json({ error: 'Movie not found' });
+    }
+
+    // Update the movie with the new data
+    Object.assign(movie, updatedData);
+
+    // Save the updated movie to the database
+    await movie.save();
+
+    res.json({ message: 'Movie updated successfully', movie });
+  } catch (error) {
+    console.error('Error updating movie:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 /**
  * Retreives all registered users
  * @function
