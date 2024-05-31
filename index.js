@@ -219,10 +219,10 @@ app.post(
 );
 
 /** update movie
- * @method GET
+ * @method PUT
  */
 
-app.put("/movies/:id", async (req, res) => {
+app.put("/movies/update", async (req, res) => {
   const movieId = req.params.id;
   const updatedData = req.body;
 
