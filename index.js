@@ -222,22 +222,20 @@ app.post(
  * @method PUT
  */
 
-app.put("/movies/update", async (req, res) => {
-  const movieId = req.params.id;
+app.put("/movies/update/:title", async (req, res) => {
+  const movieTitle = req.params.title;
   const updatedData = req.body;
 
   try {
-    // Find the movie by ID
-    const movie = await movie.findById(movieId);
+    
+    const movie = await Movies.findOne({ Title: movieTitle });
 
     if (!movie) {
       return res.status(404).json({ error: 'Movie not found' });
     }
 
-    // Update the movie with the new data
     Object.assign(movie, updatedData);
 
-    // Save the updated movie to the database
     await movie.save();
 
     res.json({ message: 'Movie updated successfully', movie });
