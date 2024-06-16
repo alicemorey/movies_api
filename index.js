@@ -56,7 +56,8 @@ accessLogStream = fs.createWriteStream(path.join(__dirname, "./log.txt.log"), {
 /**
  * connection to online database hosted by mongoDB
  */
-mongoose.connect( process.env.CONNECTION_URI, {
+const connectionString= process.env.CONNECTION_URI || "https://myflix-movies2024-b07bf2b16bbc.herokuapp.com/";
+mongoose.connect( connectionString, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
  });
